@@ -47,16 +47,24 @@
 // Additional sample headers
 #include "iot_configs.h"
 
+// Sensor libs
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+
 // When developing for your own Arduino-based platform,
 // please follow the format '(ard;<platform>)'.
 #define AZURE_SDK_CLIENT_USER_AGENT "c%2F" AZ_SDK_VERSION_STRING "(ard;esp8266)"
 
 // Utility macros and defines
-#define LED_PIN 2
 #define sizeofarray(a) (sizeof(a) / sizeof(a[0]))
 #define ONE_HOUR_IN_SECS 3600
 #define NTP_SERVERS "pool.ntp.org", "time.nist.gov"
 #define MQTT_PACKET_SIZE 1024
+
+const int SensorDataPin =2;   //Sensor pin
+OneWire oneWire(SensorDataPin);
+DallasTemperature sensors(&oneWire);
 
 // Translate iot_configs.h defines into variables used by the sample
 static const char* ssid = IOT_CONFIG_WIFI_SSID;
@@ -76,9 +84,9 @@ static uint8_t signature[512];
 static unsigned char encrypted_signature[32];
 static char base64_decoded_device_key[32];
 static unsigned long next_telemetry_send_time_ms = 0;
+static uint32_t telemetry_send_count = 0;
 static char telemetry_topic[128];
 static uint8_t telemetry_payload[100];
-static uint32_t telemetry_send_count = 0;
 
 // Auxiliary functions
 
@@ -300,7 +308,6 @@ static void establishConnection()
     connectToAzureIoTHub();
   }
 
-  digitalWrite(LED_PIN, LOW);
 }
 
 static char* getTelemetryPayload()
@@ -316,7 +323,6 @@ static char* getTelemetryPayload()
 
 static void sendTelemetry()
 {
-  digitalWrite(LED_PIN, HIGH);
   Serial.print(millis());
   Serial.print(" ESP8266 Sending telemetry . . . ");
   if (az_result_failed(az_iot_hub_client_telemetry_get_publish_topic(
@@ -329,16 +335,21 @@ static void sendTelemetry()
   mqtt_client.publish(telemetry_topic, getTelemetryPayload(), false);
   Serial.println("OK");
   delay(100);
-  digitalWrite(LED_PIN, LOW);
 }
+
+float getDS18B20Readings(){
+    sensors.requestTemperatures(); 
+    sensors.getTempCByIndex(0);
+   return sensors.getTempCByIndex(0);
+}
+
 
 // Arduino setup and loop main functions.
 
 void setup()
 {
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, HIGH);
   establishConnection();
+
 }
 
 void loop()
@@ -350,7 +361,7 @@ void loop()
     {
       establishConnection();
     }
-
+    //Serial.println(getDS18B20Readings());
     sendTelemetry();
     next_telemetry_send_time_ms = millis() + TELEMETRY_FREQUENCY_MILLISECS;
   }
