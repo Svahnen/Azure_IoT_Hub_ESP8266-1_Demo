@@ -313,8 +313,8 @@ static void establishConnection()
 static char* getTelemetryPayload()
 {
   az_span temp_span = az_span_create(telemetry_payload, sizeof(telemetry_payload));
-  temp_span = az_span_copy(temp_span, AZ_SPAN_FROM_STR("{ \"msgCount\": "));
-  (void)az_span_u32toa(temp_span, telemetry_send_count++, &temp_span);
+  temp_span = az_span_copy(temp_span, AZ_SPAN_FROM_STR("{ \"Temp\": "));
+  (void)az_span_dtoa(temp_span, getDS18B20Readings(), 2, &temp_span);
   temp_span = az_span_copy(temp_span, AZ_SPAN_FROM_STR(" }"));
   temp_span = az_span_copy_u8(temp_span, '\0');
 
@@ -334,6 +334,7 @@ static void sendTelemetry()
 
   mqtt_client.publish(telemetry_topic, getTelemetryPayload(), false);
   Serial.println("OK");
+  Serial.println(getTelemetryPayload());
   delay(100);
 }
 
@@ -361,7 +362,6 @@ void loop()
     {
       establishConnection();
     }
-    //Serial.println(getDS18B20Readings());
     sendTelemetry();
     next_telemetry_send_time_ms = millis() + TELEMETRY_FREQUENCY_MILLISECS;
   }
