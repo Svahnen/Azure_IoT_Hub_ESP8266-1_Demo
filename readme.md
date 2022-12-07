@@ -81,6 +81,8 @@ The goal of this project is to demonstrate how to connect an ESP8266 microcontro
 #define IOT_CONFIG_DEVICE_ID "Device ID"
 #define IOT_CONFIG_DEVICE_KEY "Device Key"
 ```
+3. Update the `getTelemetryPayload()` function with the specific data you want to send to Azure IoT Hub and Azure Cosmos DB.
+4. Create a Message routing under the IoT Hub to forward the data to Cosmos DB.
 
 ### Wiring
 Aliquip aute dolore in mollit ipsum mollit consequat do magna commodo mollit commodo. Sint voluptate culpa commodo adipisicing magna ut in consequat dolore quis minim. Do non dolor culpa ad veniam. Enim velit commodo exercitation id est culpa qui. Pariatur incididunt est laboris pariatur occaecat cillum. Enim consequat labore laborum ipsum adipisicing laboris duis eu excepteur. Commodo cillum tempor occaecat minim.
