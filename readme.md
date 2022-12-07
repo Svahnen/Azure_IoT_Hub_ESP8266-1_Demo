@@ -85,17 +85,41 @@ The goal of this project is to demonstrate how to connect an ESP8266 microcontro
 4. Create a Message routing under the IoT Hub to forward the data to Cosmos DB.
 
 ### Wiring
-Aliquip aute dolore in mollit ipsum mollit consequat do magna commodo mollit commodo. Sint voluptate culpa commodo adipisicing magna ut in consequat dolore quis minim. Do non dolor culpa ad veniam. Enim velit commodo exercitation id est culpa qui. Pariatur incididunt est laboris pariatur occaecat cillum. Enim consequat labore laborum ipsum adipisicing laboris duis eu excepteur. Commodo cillum tempor occaecat minim.
-<img src="https://hackster.imgix.net/uploads/attachments/931857/esp82cover_2TmU7fOx4S.jpg?auto=compress%2Cformat&w=900&h=675&fit=min">
+This depends on what version of ESP8266 and DS18b20 you have, for ESP8266-1 and "DS18b20 outside" it was:
+```
++-------------------+
+|DS18b20  |  ESP8266|
+|-------------------|
+|   VCC  ---  3,3v  |
+|   GND  ---  GND   |
+|    S   ---  GPIO2 |
++-------------------+
+```
+I used an Arduino for power and flashing.
+<br>
+<img src="img/esp_arduino.jpg" width="400"/>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Troubleshooting
-Ipsum qui enim non est enim magna ut enim ad pariatur consequat cupidatat. Adipisicing Lorem aliquip ad enim ea minim adipisicing sunt non Lorem nulla. Et tempor veniam ad amet ad eiusmod occaecat do commodo. Est eiusmod sunt labore anim amet sunt in incididunt officia exercitation consectetur qui Lorem sunt. Id nisi voluptate nostrud duis tempor et proident excepteur cillum. Nisi tempor sint cillum consequat aliquip aliquip. Velit excepteur sunt cillum exercitation commodo sit.
+If you get problems storing the data in Cosmos DB you may have to add the following to the top of `sendTelemetry()`
+```
+uint8_t property_buffer[64];
+    az_span property_span = AZ_SPAN_FROM_BUFFER(property_buffer);
+
+    az_iot_message_properties props;
+    az_iot_message_properties_init(&props, property_span, 0);
+
+    az_iot_message_properties_append(
+        &props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_TYPE), AZ_SPAN_LITERAL_FROM_STR("application%2Fjson"));
+    az_iot_message_properties_append(
+        &props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_ENCODING), AZ_SPAN_LITERAL_FROM_STR("utf-8"));
+```
+This will make sure the data is not stored as Base 64 but instead JSON utf-8.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
-Culpa pariatur labore fugiat dolor ut laboris ad et Lorem cupidatat est mollit amet. Tempor laboris minim ex quis et irure cillum. Nisi occaecat ex ex ad nostrud dolore velit voluptate exercitation deserunt id ea. Nisi eu irure aliqua adipisicing dolore irure id pariatur non deserunt laboris pariatur duis. Anim excepteur deserunt amet qui.
+The SDK and Example used is under MIT license.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
