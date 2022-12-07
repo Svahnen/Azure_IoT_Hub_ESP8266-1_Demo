@@ -5,9 +5,9 @@
     - [Resources used](#resources-used)
 - [Overview](#overview)
 - [Instructions](#instructions)
+    - [Wiring](#wiring)
     - [Installation](#installation)
     - [Setup](#setup)
-    - [Wiring](#wiring)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -62,6 +62,23 @@ The goal of this project is to demonstrate how to connect an ESP8266 microcontro
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Instructions
+### Wiring
+This depends on what version of ESP8266 and DS18b20 you have, for ESP8266-1 and "DS18b20 outside" it was:
+```
++-------------------+
+|DS18b20  |  ESP8266|
+|-------------------|
+|   VCC  ---  3,3v  |
+|   GND  ---  GND   |
+|    S   ---  GPIO2 |
++-------------------+
+```
+I used an Arduino for power and flashing.
+<br>
+<img src="img/esp_arduino.jpg" width="400"/>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Installation
 1. Install the latest version of the Arduino IDE on your computer.
 2. Install the ESP8266 board package in the Arduino IDE by following the instructions [here](https://github.com/esp8266/Arduino#installing-with-boards-manager).
@@ -83,23 +100,8 @@ The goal of this project is to demonstrate how to connect an ESP8266 microcontro
 ```
 3. Update the `getTelemetryPayload()` function with the specific data you want to send to Azure IoT Hub and Azure Cosmos DB.
 4. Create a Message routing under the IoT Hub to forward the data to Cosmos DB.
+5. Login your Azure account in Power BI to connect to Cosmos DB.
 
-### Wiring
-This depends on what version of ESP8266 and DS18b20 you have, for ESP8266-1 and "DS18b20 outside" it was:
-```
-+-------------------+
-|DS18b20  |  ESP8266|
-|-------------------|
-|   VCC  ---  3,3v  |
-|   GND  ---  GND   |
-|    S   ---  GPIO2 |
-+-------------------+
-```
-I used an Arduino for power and flashing.
-<br>
-<img src="img/esp_arduino.jpg" width="400"/>
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Troubleshooting
 If you get problems storing the data in Cosmos DB you may have to add the following to the top of `sendTelemetry()`
