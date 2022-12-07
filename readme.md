@@ -2,7 +2,6 @@
 
 ## Table of contents
 - [About the project](#about-the-project)
-    - [Why](#why)
     - [Resources used](#resources-used)
 - [Overview](#overview)
 - [Instructions](#instructions)
@@ -13,27 +12,75 @@
 - [License](#license)
 
 ## About the project
-Ullamco dolore est sint voluptate ea id. Non anim ut elit sint est dolore officia veniam. Aliquip dolor anim tempor nulla dolore Lorem ea reprehenderit quis amet adipisicing tempor ullamco. Exercitation cillum officia ad dolor cillum dolor voluptate consectetur commodo.
+This project demonstrates how to use an ESP8266 microcontroller to connect to Azure IoT Hub, Cosmos DB, and Power BI. The ESP8266 collects data from a DS18B20 temperature sensor and sends it to Azure IoT Hub, where it is stored in Cosmos DB and visualized in Power BI.
 
-### Why
-Enim ut consectetur incididunt consectetur quis laboris consequat sit reprehenderit. Qui anim duis excepteur deserunt elit ut. Officia ea fugiat dolor in pariatur pariatur deserunt pariatur occaecat eiusmod anim.
 
 ### Resources used
-Ea occaecat laborum officia eiusmod mollit fugiat pariatur cillum ea reprehenderit veniam. Laboris magna officia ut anim. Pariatur fugiat dolore in velit. Velit ipsum officia irure sint Lorem esse nulla. Consectetur do laboris anim eiusmod adipisicing nostrud aliqua.
+- ESP8266 microcontroller
+- DS18B20 Temperature sensor
+- Azure IoT Hub, Cosmos DB, and Power BI services
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Overview
-<img src="https://i.pinimg.com/originals/e2/18/0f/e2180f6d745241dd61c1b4b8c224749b.png">
+```
+                                       +------------+
+                                       |  DS18B20   |
+                                       |  Sensor    |
+                                       +------+-----+
+                                              |
+                                              |
+                                              |
+                                       +------v-----+
+                                       | ESP8266     |
+                                       |   MCU       |
+                                       +------+-----+
+                                              |
+                                              |
+                                              |
+                                       +------v-----+
+                                       | Azure IoT  |
+                                       |   Hub      |
+                                       +------+-----+
+                                              |
+                                              |
+                                              |
+                  +------v-----+       +------v-----+
+                  | SMHI       |       | Cosmos DB  |
+                  | Weather    |       |            |
+                  +------+-----+       +------+-----+
+                         |                    |
+                         |                    |
+                         |                    |
+                  +------v-----+       +------v-----+
+                  | CSV File   |       | Power Bi   |
+                  |            |------->            |
+                  +------+-----+       +------+-----+
+```
+The goal of this project is to demonstrate how to connect an ESP8266 microcontroller to Azure cloud services for data storage and visualization. The ESP8266 will collect data from sensors and send it to Azure IoT Hub, which will then store the data in Azure Cosmos DB. From there, the data can be accessed and visualized using Power BI.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Instructions
 ### Installation
-Irure id nostrud eu occaecat adipisicing ipsum reprehenderit nostrud pariatur laboris proident eu magna. Cillum aute irure nostrud proident officia laborum cillum id pariatur. Do ipsum reprehenderit irure enim ea id cupidatat excepteur. Non consequat non elit enim ad nostrud nulla qui non. Id ea officia dolor irure commodo exercitation ullamco laboris ex. Veniam dolore fugiat ad officia magna nisi minim laborum culpa anim eiusmod ea.
+1. Install the latest version of the Arduino IDE on your computer.
+2. Install the ESP8266 board package in the Arduino IDE by following the instructions [here](https://github.com/esp8266/Arduino#installing-with-boards-manager).
+3. Install the [Azure SDK for C](https://github.com/Azure/azure-sdk-for-c-arduino) library in the Arduino IDE library manager.
+4. Install [DallasTemperature](https://github.com/milesburton/Arduino-Temperature-Control-Library) library and its dependencies in the Arduino IDE library manager.
 
 ### Setup
-Adipisicing excepteur reprehenderit incididunt commodo mollit irure laborum. Labore aliquip culpa velit duis consequat do veniam culpa excepteur aliquip esse reprehenderit amet cupidatat. Esse veniam elit aliquip enim. Sint elit culpa aute non elit. Nisi duis incididunt fugiat et non.
+1. Create an Azure IoT Hub and an Azure Cosmos DB instance.
+2. In the Arduino IDE, open the `Azure_IoT_Hub_ESP8266` example sketch and update your connection info in the iot_configs.h file.
+```
+// Wifi
+#define IOT_CONFIG_WIFI_SSID "SSID"
+#define IOT_CONFIG_WIFI_PASSWORD "PWD"
+
+// Azure IoT
+#define IOT_CONFIG_IOTHUB_FQDN "[your Azure IoT host name].azure-devices.net"
+#define IOT_CONFIG_DEVICE_ID "Device ID"
+#define IOT_CONFIG_DEVICE_KEY "Device Key"
+```
 
 ### Wiring
 Aliquip aute dolore in mollit ipsum mollit consequat do magna commodo mollit commodo. Sint voluptate culpa commodo adipisicing magna ut in consequat dolore quis minim. Do non dolor culpa ad veniam. Enim velit commodo exercitation id est culpa qui. Pariatur incididunt est laboris pariatur occaecat cillum. Enim consequat labore laborum ipsum adipisicing laboris duis eu excepteur. Commodo cillum tempor occaecat minim.
