@@ -77,8 +77,6 @@ I used an Arduino for power and flashing.
 <br>
 <img src="img/esp_arduino.jpg" width="400"/>
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ### Installation
 1. Install the latest version of the Arduino IDE on your computer.
 2. Install the ESP8266 board package in the Arduino IDE by following the instructions [here](https://github.com/esp8266/Arduino#installing-with-boards-manager).
@@ -102,6 +100,7 @@ I used an Arduino for power and flashing.
 4. Create a Message routing under the IoT Hub to forward the data to Cosmos DB.
 5. Login your Azure account in Power BI to connect to Cosmos DB.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Troubleshooting
 If you get problems storing the data in Cosmos DB you may have to add the following to the top of `sendTelemetry()`
