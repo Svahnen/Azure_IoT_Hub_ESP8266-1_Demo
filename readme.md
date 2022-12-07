@@ -9,6 +9,7 @@
     - [Installation](#installation)
     - [Setup](#setup)
 - [Troubleshooting](#troubleshooting)
+- [Recommendations](#recommendations)
 - [License](#license)
 
 ## About the project
@@ -106,17 +107,17 @@ I used an Arduino for power and flashing.
 If you get problems storing the data in Cosmos DB you may have to add the following to the top of `sendTelemetry()`
 ```
 uint8_t property_buffer[64];
-    az_span property_span = AZ_SPAN_FROM_BUFFER(property_buffer);
+az_span property_span = AZ_SPAN_FROM_BUFFER(property_buffer);
 
-    az_iot_message_properties props;
-    az_iot_message_properties_init(&props, property_span, 0);
+az_iot_message_properties props;
+az_iot_message_properties_init(&props, property_span, 0);
 
-    az_iot_message_properties_append(
-        &props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_TYPE), AZ_SPAN_LITERAL_FROM_STR("application%2Fjson"));
-    az_iot_message_properties_append(
-        &props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_ENCODING), AZ_SPAN_LITERAL_FROM_STR("utf-8"));
+az_iot_message_properties_append(
+&props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_TYPE), AZ_SPAN_LITERAL_FROM_STR("application%2Fjson"));
+az_iot_message_properties_append(
+&props, AZ_SPAN_FROM_STR(AZ_IOT_MESSAGE_PROPERTIES_CONTENT_ENCODING), AZ_SPAN_LITERAL_FROM_STR("utf-8"));
 ```
-This will make sure the data is not stored as Base 64 but instead JSON utf-8.
+This will make sure the data is not stored as Base64 but instead JSON utf-8.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -124,6 +125,8 @@ This will make sure the data is not stored as Base 64 but instead JSON utf-8.
 If this was for production I would recommend the usage of certificates for higher security, and make sure those certificates are stored safely. Also make sure that api keys and such are not uploaded to any repo, as in this example where I have added the config file to .gitignore.
 
 It would also be possible to store the SMHI data in the Cosmos database by creating an Azure function that pulls the data from their API on an interval (this function could receive the api as a parameter so the same function can be used for different APIs). If this method is used it would be easy to create a long term Cold path storage solution that would include the sensor data and SMHI data, the Warm data in the database could for example have a TTL (Time To Live) for 30 days while it would still be possible to access all the old data from the Cold path.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
 The SDK and Example used is under MIT license.
