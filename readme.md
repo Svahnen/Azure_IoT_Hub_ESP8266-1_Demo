@@ -58,7 +58,7 @@ This project demonstrates how to use an ESP8266 microcontroller to connect to Az
                   | Cold path  |------->            |
                   +------+-----+       +------+-----+
 ```
-The goal of this project is to demonstrate how to connect an ESP8266 microcontroller to Azure cloud services for data storage and visualization. The ESP8266 will collect temperature data from a sensor and send it to Azure IoT Hub, which will then store the data in Azure Cosmos DB. From there, the data can be accessed and visualized using Power BI, for reference SMHI is also used to get temperature from the closest station to the sensor so comparisons can be made.
+The goal of this project is to demonstrate how to connect an ESP8266 microcontroller to Azure cloud services for data storage and visualization. The ESP8266 will collect temperature data from a sensor and send it to Azure IoT Hub, which will then store the data in Azure Cosmos DB. From there, the data can be accessed and visualized using Power BI, for reference SMHI weather data from the closest station to the sensor is stored in the Power BI database so comparisons can be made.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
