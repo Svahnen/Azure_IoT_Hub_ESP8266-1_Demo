@@ -122,9 +122,9 @@ This will make sure the data is not stored as Base64 but instead JSON utf-8.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Recommendations
-If this was for production I would recommend the usage of Azure Key Vault and certificates for higher security. Also make sure that any config files containing keys, passwords and so on are not uploaded to any repo, as in this example where I have added the config file to .gitignore.
+If this was for production use I would recommend the usage of Azure Key Vault, certificates, HSM and Device Provisioning for scalability and higher security. Then any config files containing keys, passwords and so on do not need to be flashed to the firmware and are not uploaded to any repo. In my example I have added my config file to .gitignore.
 
-It would also be possible to store the SMHI data in the Cosmos database by creating an Azure function that pulls the data from their API on an interval (this function could receive the api as a parameter so the same function can be used for different APIs). If this method is used it would be easy to create a long term Cold path storage solution that would include the sensor data and SMHI data, the Warm data in the database could for example have a TTL (Time To Live) for 30 days while it would still be possible to access all the old data from the Cold path.
+It would also be possible to store the SMHI data in the Cosmos database by creating an Azure function that pulls the data from their API on an interval, this function could receive the api as a parameter so the same function can be used for different APIs as this would make it easier to scale up the project. If this method is used it would also allow for and easy path to create a long term Cold path storage solution that would include the sensor data and SMHI data, the Warm data in the database could for example have a TTL (Time To Live) set to 30 days while it would still be possible to access all the old data from the Cold path.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
